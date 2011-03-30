@@ -1,0 +1,15 @@
+============================
+Django Rewrite External Links
+=============================
+
+Rewrite all external links (using a middleware class) to go via a message page.
+
+Installing / usage
+==================
+
+If you want to use the provided templates add 'rewrite_external_links' to INSTALLED_APPS.
+Add 'rewrite_external_links.middleware.RewriteExternalLinksMiddleware' to MIDDLEWARE_CLASSES.
+Add (r'', include('rewrite_external_links.urls')) to the urls.
+
+If you want to load the external links message using javascript AJAX then add something like the following to your template:
+    <script>$(document).ready(function () { $('a[href^={% url external_link '' %}]').fancybox(); });</script>
