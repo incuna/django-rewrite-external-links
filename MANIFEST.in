@@ -1,1 +1,1 @@
-recursive-include articles/templates *.html
+recursive-include rewrite_external_links/templates *.html
