@@ -1,7 +1,7 @@
 from distutils.core import setup
 from rewrite_external_links import get_version
 setup(
-    name = "rewrite_external_links",
+    name = "django-rewrite-external-links",
     packages = ["rewrite_external_links", ],
     include_package_data=True,
     version = "0.1",
