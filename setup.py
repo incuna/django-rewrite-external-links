@@ -1,4 +1,5 @@
 from distutils.core import setup
+from rewrite_external_links import get_version
 setup(
     name = "rewrite_external_links",
     packages = ["rewrite_external_links", ],
