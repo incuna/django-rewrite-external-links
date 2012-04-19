@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import urlencode
 
-import lxml
+import lxml.html
 
 
 SAFE_EXTERNAL_LINK_PATTERNS = getattr(settings, 'SAFE_EXTERNAL_LINK_PATTERNS', ())
@@ -26,7 +26,6 @@ class RewriteExternalLinksMiddleware(object):
 
             html = lxml.html.document_fromstring(response.content)
             for element, attribute, link, pos in html.iterlinks():
-                print element
                 # I only care about a tags with an href that is external
                 if element.tag == "a" and attribute == "href" and re.match(r'^http(s?):\/\/', link):
                     if re.match(safe_urls, link):
