@@ -19,7 +19,7 @@ class RewriteExternalLinksMiddleware(object):
     """
     def process_response(self, request, response):
 
-        external_link_root = reverse('external_link', kwargs={'link': ''})
+        external_link_root = reverse('external_link')
 
         if "text/html" in response['Content-Type'] and not request.META.get('PATH_INFO').startswith(external_link_root) and response.content:
             next = str(request.path)
@@ -31,7 +31,7 @@ class RewriteExternalLinksMiddleware(object):
                 if element.tag == "a" and attribute == "href" and re.match(r'^http(s?):\/\/', link):
                     if re.match(safe_urls, link):
                         continue
-                    element.set('href', '%(root)s%(link)s?next=%(next)s' % {'root': external_link_root, 'link': urlencode(link, safe=''), 'next': next})
+                    element.set('href', '%(root)s?link=%(link)s&next=%(next)s' % {'root': external_link_root, 'link': urlencode(link, safe=''), 'next': next})
                     modified_content = True
             if modified_content:
                 response.content = html.tostring(document_content)
