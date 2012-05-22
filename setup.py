@@ -9,5 +9,4 @@ setup(
     author = "Incuna Ltd",
     author_email = "admin@incuna.com",
     url = "http://incuna.com/",
-    install_requires = ('lxml', 'BeautifulSoup',)
 )
