@@ -29,4 +29,4 @@ Add to your `urls.py`::
 If you want to load the external links message using Javascript Ajax then add something like the following to
 your template (requires jQuery and Fancybox)::
 
-  <script>$(document).ready(function () { $('a[href^={% url external_link '' %}]').fancybox(); });</script>
+  <script>$(document).ready(function () { $('a[href^={% url external_link '' %}]').fancybox({type: 'ajax'}); });</script>
