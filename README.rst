@@ -15,7 +15,7 @@ Add to your `settings.py`::
       '...',
   )
 
-If you want to use the provided templates also add 'rewrite_external_links' to INSTALLED_APPS.
+If you want to use the provided templates also add `rewrite_external_links` to INSTALLED_APPS.
 
 
 Add to your `urls.py`::
