@@ -1,0 +1,4 @@
+-e .
+coverage==4.0.3
+flake8==2.5.0
+incuna-test-utils==6.4.1
