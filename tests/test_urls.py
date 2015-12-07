@@ -1,4 +1,5 @@
 from incuna_test_utils.testcases.urls import URLTestCase
+
 from rewrite_external_links.views import external_link
 
 
