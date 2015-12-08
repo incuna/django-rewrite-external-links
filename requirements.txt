@@ -1,4 +1,9 @@
 -e .
+colour-runner==0.0.4
 coverage==4.0.3
+dj-database-url==0.3.0
 flake8==2.5.0
+flake8-import-order==0.5.3
 incuna-test-utils==6.4.1
+mock==1.3.0
+psycopg2==2.6.1
