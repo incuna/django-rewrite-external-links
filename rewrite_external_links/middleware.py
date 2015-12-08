@@ -1,9 +1,9 @@
-import HTMLParser
 import re
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import urlencode
+from django.utils.html_parser import HTMLParser
 
 
 SAFE_EXTERNAL_LINK_PATTERNS = getattr(settings, 'SAFE_EXTERNAL_LINK_PATTERNS', ())
@@ -30,7 +30,7 @@ class RewriteExternalLinksMiddleware(object):
     external_link_root = reverse('external_link')
 
     def process_response(self, request, response):
-        h = HTMLParser.HTMLParser()
+        h = HTMLParser()
         html_content_type = "text/html" in response['Content-Type']
         start_link = request.META.get('PATH_INFO').startswith(self.external_link_root)
         if (response.content and html_content_type and not start_link):
@@ -47,7 +47,7 @@ class RewriteExternalLinksMiddleware(object):
                     'after': m.group('after'),
                     })
                 return a
-            response.content = self.extlinks.sub(linkrepl, response.content)
+            response.content = self.extlinks.sub(linkrepl, response.content.decode())
             return response
         else:
             return response

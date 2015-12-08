@@ -13,7 +13,7 @@ class TestExternalLink(TestCase):
         response = external_link(request)
 
         self.assertEqual(response.status_code, 400)
-        expected = 'No link passed, or link empty.'
+        expected = b'No link passed, or link empty.'
         self.assertEqual(response.content, expected)
 
     def test_link_ajax(self):

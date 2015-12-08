@@ -19,7 +19,7 @@ class TestRewriteExternalLinksMiddleware(TestCase):
             request=request,
             response=initial_response,
         )
-        self.assertEqual(processed_response.content, '')
+        self.assertEqual(processed_response.content, b'')
 
     def test_other_content_type(self):
         """response doesn't change if `Content-Type` is not `text/html`."""
@@ -52,7 +52,7 @@ class TestRewriteExternalLinksMiddleware(TestCase):
         request.META = {'PATH_INFO': '/another-url/'}
         request.path = path
         content_type = 'text/html'
-        content = b'<a    href="{}"></a>'.format(link)
+        content = '<a    href="{}"></a>'.format(link)
         initial_response = HttpResponse(content=content, content_type=content_type)
         processed_response = self.middleware.process_response(
             request=request,
@@ -63,4 +63,4 @@ class TestRewriteExternalLinksMiddleware(TestCase):
             urlencode(link, safe=''),
             path,
         )
-        self.assertEqual(processed_response.content, expected)
+        self.assertEqual(processed_response.content, expected.encode())
