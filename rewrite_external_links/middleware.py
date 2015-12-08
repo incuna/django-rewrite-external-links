@@ -32,8 +32,8 @@ class RewriteExternalLinksMiddleware(object):
     def process_response(self, request, response):
         h = HTMLParser.HTMLParser()
         html_content_type = "text/html" in response['Content-Type']
-        start_with_link = request.META.get('PATH_INFO').startswith(self.external_link_root)
-        if (response.content and html_content_type and not start_with_link):
+        start_link = request.META.get('PATH_INFO').startswith(self.external_link_root)
+        if (response.content and html_content_type and not start_link):
             next = request.path
 
             def linkrepl(m):
