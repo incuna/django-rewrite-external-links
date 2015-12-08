@@ -13,7 +13,10 @@ settings.configure(
         ),
     },
     DEFAULT_FILE_STORAGE='inmemorystorage.InMemoryStorage',
-    INSTALLED_APPS=('tests',),
+    INSTALLED_APPS=(
+        'rewrite_external_links',
+        'tests',
+    ),
     MIDDLEWARE_CLASSES=(),
     ROOT_URLCONF='rewrite_external_links.urls',
 )
