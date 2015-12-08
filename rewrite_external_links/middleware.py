@@ -1,5 +1,5 @@
-import re
 import HTMLParser
+import re
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -21,16 +21,15 @@ class RewriteExternalLinksMiddleware(object):
         <a href="/external_link/?link=http://www.xxx.com&next=...">
     """
 
-    #                            <a ... href="                www.xxx.com                                " ... />
+    # <a ... href="    www.xxx.com                                " ... />
     extlinks = re.compile(r'''(?P<before><a[^>]*href=['"]?)(?P<link>https?://''' + safe_urls + '''[^'">]*)(?P<after>[^>]*)''')
     external_link_root = reverse('external_link')
 
     def process_response(self, request, response):
         h = HTMLParser.HTMLParser()
-        if (response.content
-                and "text/html" in response['Content-Type']
-                and not request.META.get('PATH_INFO').startswith(self.external_link_root)):
-
+        html_content_type = "text/html" in response['Content-Type']
+        start_with_link = request.META.get('PATH_INFO').startswith(self.external_link_root)
+        if (response.content and html_content_type and not start_with_link):
             next = request.path
 
             def linkrepl(m):
