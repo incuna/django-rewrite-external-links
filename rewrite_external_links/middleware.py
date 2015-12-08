@@ -22,7 +22,11 @@ class RewriteExternalLinksMiddleware(object):
     """
 
     # <a ... href="    www.xxx.com                                " ... />
-    extlinks = re.compile(r'''(?P<before><a[^>]*href=['"]?)(?P<link>https?://''' + safe_urls + '''[^'">]*)(?P<after>[^>]*)''')
+    extlinks = re.compile(r'''
+        (?P<before><a[^>]*href=['"]?)
+        (?P<link>https?://{}[^'">]*)
+        (?P<after>[^>]*)
+    '''.format(safe_urls), re.VERBOSE)
     external_link_root = reverse('external_link')
 
     def process_response(self, request, response):
