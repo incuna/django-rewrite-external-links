@@ -9,58 +9,59 @@ from rewrite_external_links.middleware import RewriteExternalLinksMiddleware
 class TestRewriteExternalLinksMiddleware(TestCase):
     def setUp(self):
         self.middleware = RewriteExternalLinksMiddleware()
+        self.request = MagicMock()
+        self.content_type = 'text/html'
+        self.link = 'http://example.com'
+        self.content = '<a    href="{}"></a>'.format(self.link).encode()
 
     def test_no_response_content(self):
-        """response doesn't change if no response content."""
-        request = MagicMock()
-        content_type = 'application/thraud+xml'
-        initial_response = HttpResponse(content_type=content_type)
+        """When response has no content the middleware does nothing."""
+        response = HttpResponse(content_type=self.content_type)
         processed_response = self.middleware.process_response(
-            request=request,
-            response=initial_response,
+            request=self.request,
+            response=response,
         )
         self.assertEqual(processed_response.content, b'')
 
     def test_other_content_type(self):
-        """response doesn't change if `Content-Type` is not `text/html`."""
-        request = MagicMock()
+        """When response `Content-Type` is not `text/html` the middleware does nothing."""
         content_type = 'application/thraud+xml'
-        content = b'<a href="http://example.com"></a>'
-        initial_response = HttpResponse(content=content, content_type=content_type)
+        response = HttpResponse(content=self.content, content_type=content_type)
         processed_response = self.middleware.process_response(
-            request=request,
-            response=initial_response,
+            request=self.request,
+            response=response,
         )
-        self.assertEqual(processed_response.content, content)
+        self.assertEqual(processed_response.content, self.content)
 
     def test_other_request_path_info(self):
-        request = MagicMock()
-        request.META = {'PATH_INFO': '/external-link/'}
-        content_type = 'text/html'
-        content = b'<a href="http://example.com"></a>'
-        initial_response = HttpResponse(content=content, content_type=content_type)
-        processed_response = self.middleware.process_response(
-            request=request,
-            response=initial_response,
+        """The middleware should not process the external link view."""
+        self.request.META = {'PATH_INFO': '/external-link/'}
+        response = HttpResponse(
+            content=self.content,
+            content_type=self.content_type,
         )
-        self.assertEqual(processed_response.content, content)
+        processed_response = self.middleware.process_response(
+            request=self.request,
+            response=response,
+        )
+        self.assertEqual(processed_response.content, self.content)
 
     def test_response_content(self):
+        """The middleware should rewrite html url links."""
         path = 'test-path'
-        link = 'http://example.com'
-        request = MagicMock()
-        request.META = {'PATH_INFO': '/another-url/'}
-        request.path = path
-        content_type = 'text/html'
-        content = '<a    href="{}"></a>'.format(link)
-        initial_response = HttpResponse(content=content, content_type=content_type)
+        self.request.META = {'PATH_INFO': '/another-url/'}
+        self.request.path = path
+        response = HttpResponse(
+            content=self.content,
+            content_type=self.content_type,
+        )
         processed_response = self.middleware.process_response(
-            request=request,
-            response=initial_response,
+            request=self.request,
+            response=response,
         )
 
         expected = '<a    href="/external-link/?link={}&next={}"></a>'.format(
-            urlencode(link, safe=''),
+            urlencode(self.link, safe=''),
             path,
         )
         self.assertEqual(processed_response.content, expected.encode())
