@@ -37,16 +37,15 @@ class RewriteExternalLinksMiddleware(object):
             next = request.path
 
             def linkrepl(m):
-                a = str('''%(before)s%(root)s?link=%(link)s&next=%(next)s%(after)s''' % {
-                    'root': self.external_link_root,
-                    'next': next,
-                    'before': m.group('before'),
+                return '{before}{root}?link={link}&next={next}{after}'.format(
+                    root=self.external_link_root,
+                    next=next,
+                    before=m.group('before'),
                     # unescape the link before encoding it to ensure entities
                     # such as '&' # don't get double escaped
-                    'link': urlencode(h.unescape(m.group('link')), safe=''),
-                    'after': m.group('after'),
-                    })
-                return a
+                    link=urlencode(h.unescape(m.group('link')), safe=''),
+                    after=m.group('after'),
+                )
             response.content = self.extlinks.sub(linkrepl, response.content.decode())
             return response
         else:
