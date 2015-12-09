@@ -8,7 +8,7 @@ def external_link(request, extra_context=None):
     if extra_context is not None:
         context.update(extra_context)
 
-    link = request.REQUEST.get('link')
+    link = request.GET.get('link')
     if not link:
         return HttpResponseBadRequest('No link passed, or link empty.')
 
@@ -17,7 +17,7 @@ def external_link(request, extra_context=None):
         next = ''
     else:
         template = 'rewrite_external_links/external_link.html'
-        next = request.REQUEST.get('next', request.META.get('HTTP_REFERER', '/'))
+        next = request.GET.get('next', request.META.get('HTTP_REFERER', '/'))
 
     context.update({'link': link, 'next': next})
 

@@ -16,6 +16,9 @@ settings.configure(
     INSTALLED_APPS=(
         'rewrite_external_links',
         'tests',
+
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
     ),
     MIDDLEWARE_CLASSES=(),
     ROOT_URLCONF='rewrite_external_links.urls',

@@ -1,16 +1,10 @@
 from django.test import TestCase
-from mock import Mock
-
-from rewrite_external_links.views import external_link
 
 
 class TestExternalLink(TestCase):
     def test_no_link(self):
         """Assert it raises an error when no link is passed."""
-        request = Mock()
-        request.REQUEST = {}
-
-        response = external_link(request)
+        response = self.client.get('/external-link/')
 
         self.assertEqual(response.status_code, 400)
         expected = b'No link passed, or link empty.'
