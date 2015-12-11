@@ -42,7 +42,7 @@ class RewriteExternalLinksMiddleware(object):
                     next=next,
                     before=m.group('before'),
                     # unescape the link before encoding it to ensure entities
-                    # such as '&' # don't get double escaped
+                    # such as '&' don't get double escaped
                     link=urlencode(h.unescape(m.group('link')), safe=''),
                     after=m.group('after'),
                 )
