@@ -16,16 +16,15 @@ class RewriteExternalLinksMiddleware(object):
     """
     Rewrite all external links to go via a message page.
     Rewrite:
-        <a href="http://www.xxx.com">
+        <a href="http://www.example.com">
     To:
-        <a href="/external_link/?link=http://www.xxx.com&next=...">
+        <a href="/external_link/?link=http://www.example.com&next=...">
     """
 
-    # <a ... href="    www.xxx.com                                " ... />
     extlinks = re.compile(r'''
-        (?P<before><a[^>]*href=['"]?)
-        (?P<link>https?://{}[^'">]*)
-        (?P<after>[^>]*)
+        (?P<before><a[^>]*href=['"]?)  # content from `<a` to `href='`
+        (?P<link>https?://{}[^'">]*)  # href link
+        (?P<after>[^>]*)  # content after the href attribute to the closing bracket `>`
     '''.format(safe_urls), re.VERBOSE)
     external_link_root = reverse('external_link')
 
