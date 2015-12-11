@@ -1,4 +1,4 @@
-## v1.0.0 (Upcoming)
+## v1.0.0
 
 * Add tests
 * Drop support for Django < 1.8
