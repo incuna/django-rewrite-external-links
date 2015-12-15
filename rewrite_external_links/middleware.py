@@ -29,6 +29,9 @@ class RewriteExternalLinksMiddleware(object):
     external_link_root = reverse('external_link')
 
     def process_response(self, request, response):
+        if response.streaming:
+            return response
+
         h = HTMLParser()
         html_content_type = "text/html" in response['Content-Type']
         start_link = request.META.get('PATH_INFO').startswith(self.external_link_root)

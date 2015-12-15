@@ -1,4 +1,4 @@
-from django.http.response import HttpResponse
+from django.http.response import FileResponse, HttpResponse
 from django.template.defaultfilters import urlencode
 from django.test import TestCase
 from mock import MagicMock
@@ -22,6 +22,15 @@ class TestRewriteExternalLinksMiddleware(TestCase):
             response=response,
         )
         self.assertEqual(processed_response.content, b'')
+
+    def test_streamed_response(self):
+        """Streamed response should not change."""
+        response = FileResponse()
+        processed_response = self.middleware.process_response(
+            request=self.request,
+            response=response,
+        )
+        self.assertEqual(processed_response.getvalue(), b'')
 
     def test_other_content_type(self):
         """When response `Content-Type` is not `text/html` the middleware does nothing."""
