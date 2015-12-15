@@ -23,14 +23,14 @@ class TestRewriteExternalLinksMiddleware(TestCase):
         )
         self.assertEqual(processed_response.content, b'')
 
-    def test_file_response(self):
-        """FileResponse has no content attribute."""
+    def test_streamed_response(self):
+        """Streamed response should not change."""
         response = FileResponse()
         processed_response = self.middleware.process_response(
             request=self.request,
             response=response,
         )
-        self.assertEqual(processed_response.content, b'')
+        self.assertEqual(processed_response.getvalue(), b'')
 
     def test_other_content_type(self):
         """When response `Content-Type` is not `text/html` the middleware does nothing."""
