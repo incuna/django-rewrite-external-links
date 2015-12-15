@@ -1,3 +1,7 @@
+## v1.0.1 (Upcoming)
+
+* Avoid processing streamed content
+
 ## v1.0.0
 
 * Add tests
