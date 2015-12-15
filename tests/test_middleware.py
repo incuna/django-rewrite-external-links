@@ -1,4 +1,4 @@
-from django.http.response import HttpResponse
+from django.http.response import FileResponse, HttpResponse
 from django.template.defaultfilters import urlencode
 from django.test import TestCase
 from mock import MagicMock
@@ -17,6 +17,15 @@ class TestRewriteExternalLinksMiddleware(TestCase):
     def test_no_response_content(self):
         """When response has no content the middleware does nothing."""
         response = HttpResponse(content_type=self.content_type)
+        processed_response = self.middleware.process_response(
+            request=self.request,
+            response=response,
+        )
+        self.assertEqual(processed_response.content, b'')
+
+    def test_file_response(self):
+        """FileResponse has no content attribute."""
+        response = FileResponse()
         processed_response = self.middleware.process_response(
             request=self.request,
             response=response,
