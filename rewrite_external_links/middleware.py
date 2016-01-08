@@ -53,6 +53,8 @@ class RewriteExternalLinksMiddleware(object):
                 linkrepl,
                 response.content.decode('utf-8')
             )
+            response['Content-Length'] = len(response.content)
+
             return response
         else:
             return response
