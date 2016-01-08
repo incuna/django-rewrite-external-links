@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.http.response import FileResponse, HttpResponse
 from django.template.defaultfilters import urlencode
 from django.test import TestCase
