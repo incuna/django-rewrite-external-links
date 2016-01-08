@@ -1,3 +1,7 @@
+## v1.0.3
+
+* Set the response's content length correctly after editing the content.
+
 ## v1.0.2
 
 * Fix character encoding and `Content-Type` bugs.
