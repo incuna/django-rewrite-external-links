@@ -13,7 +13,7 @@ class TestRewriteExternalLinksMiddleware(TestCase):
         self.request = MagicMock()
         self.content_type = 'text/html'
         self.link = 'http://ΣxamplΣ.com'  # get some unicode in there
-        self.content = '<a    href="{}"></a>'.format(self.link).encode()
+        self.content = '<a    href="{}"></a>'.format(self.link).encode('utf-8')
 
     def test_no_response_content(self):
         """When response has no content the middleware does nothing."""
