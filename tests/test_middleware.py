@@ -85,3 +85,4 @@ class TestRewriteExternalLinksMiddleware(TestCase):
             path,
         )
         self.assertEqual(processed_response.content, expected.encode())
+        self.assertEqual(processed_response['Content-Length'], str(len(expected)))
