@@ -1,3 +1,7 @@
+## v1.0.2
+
+* Fix character encoding and `Content-Type` bugs.
+
 ## v1.0.1
 
 * Avoid processing streamed content
