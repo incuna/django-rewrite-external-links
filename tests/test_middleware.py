@@ -11,7 +11,7 @@ class TestRewriteExternalLinksMiddleware(TestCase):
         self.middleware = RewriteExternalLinksMiddleware()
         self.request = MagicMock()
         self.content_type = 'text/html'
-        self.link = 'http://example.com'
+        self.link = 'http://ΣxamplΣ.com'  # get some unicode in there
         self.content = '<a    href="{}"></a>'.format(self.link).encode()
 
     def test_no_response_content(self):
@@ -36,6 +36,16 @@ class TestRewriteExternalLinksMiddleware(TestCase):
         """When response `Content-Type` is not `text/html` the middleware does nothing."""
         content_type = 'application/thraud+xml'
         response = HttpResponse(content=self.content, content_type=content_type)
+        processed_response = self.middleware.process_response(
+            request=self.request,
+            response=response,
+        )
+        self.assertEqual(processed_response.content, self.content)
+
+    def test_missing_content_type(self):
+        """When response `Content-Type` is missing, the middleware does nothing."""
+        response = HttpResponse(content=self.content)
+        del response['content-type']
         processed_response = self.middleware.process_response(
             request=self.request,
             response=response,

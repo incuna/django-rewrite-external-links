@@ -33,8 +33,9 @@ class RewriteExternalLinksMiddleware(object):
             return response
 
         h = HTMLParser()
-        html_content_type = "text/html" in response['Content-Type']
+        html_content_type = 'text/html' in response.get('content-type', '')
         start_link = request.META.get('PATH_INFO').startswith(self.external_link_root)
+
         if (response.content and html_content_type and not start_link):
             next = request.path
 
@@ -48,7 +49,10 @@ class RewriteExternalLinksMiddleware(object):
                     link=urlencode(h.unescape(m.group('link')), safe=''),
                     after=m.group('after'),
                 )
-            response.content = self.extlinks.sub(linkrepl, response.content.decode())
+            response.content = self.extlinks.sub(
+                linkrepl,
+                response.content.decode('utf-8')
+            )
             return response
         else:
             return response
