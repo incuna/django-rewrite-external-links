@@ -1,3 +1,7 @@
+## v1.1.0 (Upcoming)
+
+* Don't reverse 'external_link' at runtime.
+
 ## v1.0.3
 
 * Set the response's content length correctly after editing the content.
