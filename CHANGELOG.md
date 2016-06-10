@@ -1,4 +1,4 @@
-## v1.1.0 (Upcoming)
+## v1.1.0
 
 * Don't reverse 'external_link' at runtime.
 
