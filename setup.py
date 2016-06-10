@@ -5,7 +5,7 @@ from rewrite_external_links import get_version
 
 description = (
     'Rewrite all external (off-site) links to go via a message page, '
-    + 'using a middleware class.'
+    'using a middleware class.'
 )
 
 setup(
