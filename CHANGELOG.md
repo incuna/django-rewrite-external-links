@@ -1,3 +1,7 @@
+## v1.1.1
+
+* Use request.path to compare start link.
+
 ## v1.1.0
 
 * Don't reverse 'external_link' at runtime.
